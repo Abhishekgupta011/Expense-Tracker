@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import './Signup.css'
 const SignUp = () => {
     const [email , setEmail] = useState("");
     const [password , setPassword] = useState("");
@@ -17,7 +17,6 @@ const SignUp = () => {
 
     let formSubmitHandler= async(event)=>{
         event.preventDefault();
-        setLogin(true)
         if (password !== cPassword) {
             alert("Passwords do not match");
             return;
@@ -39,7 +38,8 @@ const SignUp = () => {
                     alert(`${isLogin ? 'Login' : 'Sign-Up'} successful`, 'success')
                     console.log(responseData)
                 } else {
-                    alert("Sign-up failed:");
+                    alert(responseData.error.message || 'Authentication failed');
+
                   }
             } catch(error){
                 console.error('An error occurred during authentication', error);
@@ -50,7 +50,9 @@ const SignUp = () => {
  
     
     return(
+        
         <form onSubmit={formSubmitHandler}>
+            <div className="form-container">
             <label htmlFor="email">Email</label>
             <input type="email" id="email" value={email} onChange={emailInputHandler} required placeholder="User Email"/>
             <label htmlFor="password">Password</label>
@@ -58,10 +60,15 @@ const SignUp = () => {
             {!isLogin && <label htmlFor="cpassword">Confirm Password</label>}
             {!isLogin &&<input type="password" id="cpassword" value={cPassword} onChange={cPasswordInputHandler} required placeholder="Confirm Password"/>}
             <button type="submit">{isLogin ? "Login" : "SignUp" }</button>
+            </div>
+            <div className="toggle">
             <button type="button"
-        onClick={() => setLogin(!isLogin)}
-      >{isLogin ? "Create New Account? SignUp" : "Have an account? Login"}</button>
+            onClick={() => setLogin(!isLogin)}
+            className="toggle-button"
+            >{isLogin ? "Create New Account? SignUp" : "Have an account? Login"}</button>
+            </div>
         </form>
+        
     )
 }
 export default SignUp;

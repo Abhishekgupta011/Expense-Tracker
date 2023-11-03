@@ -1,0 +1,65 @@
+.form-container {
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 30px;
+    margin-top: 10%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .form-container label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+  }
+  
+  .form-container button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .form-container button:hover {
+    background-color: #0056b3;
+  }
+  .toggle{
+    max-width: 200px;
+    margin: 0 auto;
+    margin-top: 1%;
+  }
+  .toggle button {
+    background-color: rgba(161, 239, 245, 0.404);
+    border: solid 0.5px black;
+    color: #c07575;
+    padding: 10px 10px;
+    cursor: pointer;
+  }
+  
+  .toggle button:hover {
+    background-color: #69d8e0;
+    color: black;
+    border: 1px solid #ccc; 
+    transition: background-color 0.2s ease-out, color 0.2s ease-out, border 0.2s ease-out; 
+  }
+
+  
+  .form-container .toggle-button {
+    margin-top: 10px;
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+  }
+  

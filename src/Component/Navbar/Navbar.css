@@ -1,7 +1,29 @@
-.nav-items{
+.navbar {
     background-color: #333;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-}
+    padding: 10px 0;
+    text-align: center;
+  }
+  
+  .nav-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .nav-items li {
+    color: white;
+    display: inline;
+    margin: 0 20px;
+  }
+
+  .nav-items li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+
+  .nav-items li a:hover {
+    color: #007bff;
+  }
+  
