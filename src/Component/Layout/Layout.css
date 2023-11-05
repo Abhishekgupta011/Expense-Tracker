@@ -1,0 +1,14 @@
+.welcome{
+    display: flex;
+    justify-content: space-between;
+}
+span{
+    color: red;
+    cursor: pointer;
+}
+.profile{
+    background-color: rgb(238, 167, 167);
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+}

@@ -1,0 +1,48 @@
+.update-form{
+    width: 60%;
+    margin: 0 auto;
+    margin-top: 10%;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+.u-form{
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 5%;
+    margin-bottom: 3%;
+}
+.u-form label{
+    display: block;
+    margin-bottom: 5px;
+}
+.u-form input{
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+.form-header{
+    width: 90%;
+    padding: 3%;
+    display: flex;
+    justify-content: space-between;
+}
+.form-header button{
+    background: none;
+    border: 1px solid red;
+    color: red;
+    padding: 0 2%  0 1%;
+}
+.form-header button:hover{
+    background-color: red;
+    color: #ccc
+}
+.update{
+    background-color: rgb(150, 111, 66);
+    border: none;
+    color: white;
+    padding: 2%;
+    cursor: pointer;
+}

@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import './Signup.css'
 import Layout from "../Layout/Layout";
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from "@mui/material/TextField";
 
 const SignUp = () => {
     const [email, setEmail] = useState("");
@@ -8,7 +12,7 @@ const SignUp = () => {
     const [cPassword, setCpassword] = useState("");
     const [isLogin, setLogin] = useState(false);
     const [isLoggedIn, setLoggedIn] = useState(false); // Track the login state
-
+    const [visiblePassword , setVisiblePassword] = useState(false);
     const emailInputHandler = (event) => {
         setEmail(event.target.value);
     }
@@ -43,7 +47,7 @@ const SignUp = () => {
                 if (response.ok) {
                     alert(`${isLogin ? 'Login' : 'Sign-Up'} successful`, 'success');
                     console.log(responseData);
-
+                    localStorage.setItem("IdToken" , responseData.idToken);
                     if(isLogin){
                         setLoggedIn(true);
                     }
@@ -64,10 +68,30 @@ const SignUp = () => {
                     <label htmlFor="email">Email</label>
                     <input type="email" id="email" value={email} onChange={emailInputHandler} required placeholder="User Email" />
                     <label htmlFor="password">Password</label>
-                    <input type="password" id="password" value={password} onChange={passwordInputHandler} required placeholder="Password" />
+                    <TextField
+                            type={visiblePassword ? "password" : "text"} 
+                            id="password"
+                            value={password}
+                            onChange={passwordInputHandler}
+                            required
+                            label="Password"
+                            className="password"
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        {visiblePassword ? (
+                                            <VisibilityOffIcon onClick={() => setVisiblePassword(false)} />
+                                        ) : (
+                                            <VisibilityIcon onClick={() => setVisiblePassword(true)} />
+                                        )}
+                                    </InputAdornment>
+                                )
+                            }}
+                        />
                     {!isLogin && <label htmlFor="cpassword">Confirm Password</label>}
                     {!isLogin && <input type="password" id="cpassword" value={cPassword} onChange={cPasswordInputHandler} required placeholder="Confirm Password" />}
                     <button type="submit">{isLogin ? "Login" : "Sign-Up"}</button>
+                    {isLogin && <button className="fpassword">Forgot Password?</button>}
                 </div>
                 <div className="toggle">
                     <button type="button"

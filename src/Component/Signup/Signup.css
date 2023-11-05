@@ -46,6 +46,10 @@
     padding: 10px 10px;
     cursor: pointer;
   }
+  .password{
+    width: 107%;
+  
+  }
   
   .toggle button:hover {
     background-color: #69d8e0;
@@ -62,4 +66,8 @@
     color: #007bff;
     cursor: pointer;
   }
+  .fpassword{
+    color: black;
+  }
+ 
   
