@@ -46,3 +46,14 @@
     padding: 2%;
     cursor: pointer;
 }
+.btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px auto;
+    background-color: rgb(150, 111, 66);
+    border: none;
+    color: white;
+    padding: 2%;
+    cursor: pointer;
+}

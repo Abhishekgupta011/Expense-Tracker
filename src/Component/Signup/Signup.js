@@ -5,6 +5,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from "@mui/material/TextField";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
     const [email, setEmail] = useState("");
@@ -48,6 +49,7 @@ const SignUp = () => {
                     alert(`${isLogin ? 'Login' : 'Sign-Up'} successful`, 'success');
                     console.log(responseData);
                     localStorage.setItem("IdToken" , responseData.idToken);
+                    localStorage.setItem("email" , email);
                     if(isLogin){
                         setLoggedIn(true);
                     }
@@ -91,7 +93,7 @@ const SignUp = () => {
                     {!isLogin && <label htmlFor="cpassword">Confirm Password</label>}
                     {!isLogin && <input type="password" id="cpassword" value={cPassword} onChange={cPasswordInputHandler} required placeholder="Confirm Password" />}
                     <button type="submit">{isLogin ? "Login" : "Sign-Up"}</button>
-                    {isLogin && <button className="fpassword">Forgot Password?</button>}
+                    {isLogin && <Link to="/fpassword">Forgot Password?</Link>}
                 </div>
                 <div className="toggle">
                     <button type="button"
