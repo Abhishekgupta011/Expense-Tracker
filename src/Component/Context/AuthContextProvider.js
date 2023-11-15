@@ -25,6 +25,7 @@ const AuthContextProvider = (props)=>{
         setToken(null)
         localStorage.removeItem("IdToken");
         navigate('/')
+        localStorage.removeItem("email");
     }
     const AuthContextValue={
         token:token,

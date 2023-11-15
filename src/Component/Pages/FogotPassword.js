@@ -8,16 +8,16 @@ const ForgotPassword = () =>{
     const nPasswordSubmitHandler = async(e)=>{
         e.preventDefault();
         const storedToken = localStorage.getItem("IdToken")
+        const getEmail = localStorage.getItem("email")
         try{
-            const response = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDJk2qCxLvy8gpH7j8NlZsL7Zg0QeB6ZVA",{
+            const response = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDJk2qCxLvy8gpH7j8NlZsL7Zg0QeB6ZVA",{
                 method : "POST",
                 headers: {
                     'Content-Type': 'application/json',
                   },
                   body: JSON.stringify({
-                    idToken: storedToken,
-                    password: nPassword,
-                    returnSecureToken: true,
+                    requestType: "PASSWORD_RESET",
+                    email: nPassword,
                   }),
                 });
           
@@ -34,9 +34,9 @@ const ForgotPassword = () =>{
             };
     return(
         <form onSubmit={nPasswordSubmitHandler} className={classes.fpassword}>
-            <label htmlFor="Npassword">New Password</label>
-            <input type="password" id="Npassword" value={nPassword} onChange={npasswordHandler} />
-            <button type="submit" className={classes.btn}>Change Password</button>
+            <label htmlFor="email">Enter Email</label>
+            <input type="email" id="email" value={nPassword} onChange={npasswordHandler} />
+            <button type="submit" className={classes.btn}>Send Link</button>
         </form>
     )
 }
