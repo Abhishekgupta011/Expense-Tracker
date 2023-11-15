@@ -1,11 +1,16 @@
+import { useContext, useEffect } from "react";
+import AuthContextProvider from "./Component/Context/AuthContextProvider";
 import Navbar from "./Component/Navbar/Navbar";
 import ForgotPassword from "./Component/Pages/FogotPassword";
 import ProfilePage from "./Component/Profile/ProfilePage";
 import SignUp from "./Component/Signup/Signup";
-import {Routes , Route} from 'react-router-dom';
+import {Routes , Route, useNavigate} from 'react-router-dom';
+import AuthContext from "./Component/Context/AuthContext";
 function App() {
+  const authctx = useContext(AuthContext);
+ 
   return (
-    <div className="App">
+    <AuthContextProvider>
       <Navbar/>
       <Routes>
       
@@ -13,7 +18,8 @@ function App() {
       <Route path='/profilepage' element={<ProfilePage/>}/>
       <Route path="/fpassword" element={<ForgotPassword/>}/>
       </Routes>
-    </div>
+    </AuthContextProvider>
+    
   );
 }
 

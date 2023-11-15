@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import './Signup.css'
 import Layout from "../Layout/Layout";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -6,8 +6,9 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from "@mui/material/TextField";
 import { Link } from "react-router-dom";
-
+import AuthContext from '../Context/AuthContext';
 const SignUp = () => {
+    const AuthCtx = useContext(AuthContext)
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [cPassword, setCpassword] = useState("");
@@ -48,7 +49,7 @@ const SignUp = () => {
                 if (response.ok) {
                     alert(`${isLogin ? 'Login' : 'Sign-Up'} successful`, 'success');
                     console.log(responseData);
-                    localStorage.setItem("IdToken" , responseData.idToken);
+                    AuthCtx.login(responseData.idToken);
                     localStorage.setItem("email" , email);
                     if(isLogin){
                         setLoggedIn(true);
