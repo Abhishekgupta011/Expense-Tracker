@@ -21,7 +21,6 @@ const AuthContextProvider = (props)=>{
         localStorage.setItem("IdToken" , newToken);
       }
     const logout=()=>{
-        console.log("loggedout")
         setToken(null)
         localStorage.removeItem("IdToken");
         navigate('/')

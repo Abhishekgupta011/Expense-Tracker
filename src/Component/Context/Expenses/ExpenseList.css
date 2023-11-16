@@ -1,0 +1,30 @@
+.list {
+    margin: 20px;
+  }
+  
+  .order {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .listitems {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .des {
+    font-weight: bold;
+  }
+  
+  .am {
+    margin-left: 10px;
+  }
+  
+  .cat {
+    margin-left: 10px;
+    color: #888;
+  }
+  

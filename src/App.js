@@ -6,6 +6,7 @@ import ProfilePage from "./Component/Profile/ProfilePage";
 import SignUp from "./Component/Signup/Signup";
 import {Routes , Route, useNavigate} from 'react-router-dom';
 import AuthContext from "./Component/Context/AuthContext";
+import ExpenseForm from "./Component/Context/Expenses/ExpenseForm";
 function App() {
   const authctx = useContext(AuthContext);
  
@@ -13,8 +14,7 @@ function App() {
     <AuthContextProvider>
       <Navbar/>
       <Routes>
-      
-      <Route path='/' element={<SignUp/>}/>
+      <Route path='/' element= {<SignUp />} />
       <Route path='/profilepage' element={<ProfilePage/>}/>
       <Route path="/fpassword" element={<ForgotPassword/>}/>
       </Routes>

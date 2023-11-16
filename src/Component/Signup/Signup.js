@@ -7,13 +7,14 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from "@mui/material/TextField";
 import { Link } from "react-router-dom";
 import AuthContext from '../Context/AuthContext';
+import ExpenseForm from "../Context/Expenses/ExpenseForm";
 const SignUp = () => {
     const AuthCtx = useContext(AuthContext)
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [cPassword, setCpassword] = useState("");
     const [isLogin, setLogin] = useState(false);
-    const [isLoggedIn, setLoggedIn] = useState(false); // Track the login state
+    const [isLoggedIn, setLoggedIn] = useState(false); 
     const [visiblePassword , setVisiblePassword] = useState(false);
     const emailInputHandler = (event) => {
         setEmail(event.target.value);
@@ -103,6 +104,7 @@ const SignUp = () => {
                     >{isLogin ? "Create New Account? Sign Up" : "Have an account? Login"}</button>
                 </div>
             </form>}
+            {isLoggedIn && <ExpenseForm/>}
             
         </>
     )
