@@ -13,6 +13,8 @@ const ExpenseList = (props) => {
                             <span className="des">{product.description}</span>
                             <span className="am">{product.amount}</span>
                             <span className="cat">{product.category}</span>
+                            <button onClick={()=>props.onEditExpense(product)}>Edit</button>
+                            <button onClick={()=>props.onDeleteExpense(product.id)}>Delete</button>
                         </li>
                     );
                 })}
