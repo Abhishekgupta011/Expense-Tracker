@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import ExpenseList from "./ExpenseList";
 import './ExpenseForm.css';
-
+import { expensesActions } from "../../Store/ExpenseSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const ExpenseForm = () => {
+    const dispatch = useDispatch();
+    const products = useSelector((state)=>state.expense.products)
     const [description, setDescription] = useState("");
     const [amount, setAmount] = useState('');
     const [category, setCategory] = useState("");
-    const [products, setProducts] = useState([]);
     
     const descriptionHandler = (event) => {
         setDescription(event.target.value);
@@ -23,7 +25,7 @@ const ExpenseForm = () => {
 
     const getExpenses = async () => {
         try {
-            const response = await fetch("https://expensetracker-e9a1b-default-rtdb.firebaseio.com/expenses.json", {
+            const response = await fetch("https://expensess-42887-default-rtdb.firebaseio.com/expenses.json", {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -34,14 +36,15 @@ const ExpenseForm = () => {
                 const data = await response.json();
                 console.log(data)
                 const expensesArray = Object.values(data);
-                setProducts(expensesArray);
+
+                dispatch(expensesActions.initialExpenses(expensesArray));
                 // console.log("expensesArray" , expensesArray)
                 // console.log("products" , products)
             }
         } catch (error) {
             console.error('Error fetching expenses:', error);
         }
-    }
+    };
 
     const generateUniqueId = () => {
         return Date.now(); // Using timestamp as a simple way to generate a unique ID
@@ -52,7 +55,7 @@ const ExpenseForm = () => {
         
 
         try {
-            const response = await fetch("https://expensetracker-e9a1b-default-rtdb.firebaseio.com/expenses.json", {
+            const response = await fetch("https://expensess-42887-default-rtdb.firebaseio.com/expenses.json", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -70,10 +73,11 @@ const ExpenseForm = () => {
             if (response.ok) {
 
                 alert('Product added successfully');
-                setProducts([...products, {id: generateUniqueId(),
+                dispatch(expensesActions.addExpense([...products, {id: generateUniqueId(),
                 description,
                 amount,
-                category,}]);
+                category,}]));
+             
                 setAmount('');
                 setCategory('');
                 setDescription('');
@@ -97,7 +101,7 @@ const ExpenseForm = () => {
                 category,
             };
 
-            const response = await fetch(`https://expensetracker-e9a1b-default-rtdb.firebaseio.com/expenses/${expense.id}.json`, {
+            const response = await fetch(`https://expensess-42887-default-rtdb.firebaseio.com/expenses/${expense.id}.json`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -108,7 +112,7 @@ const ExpenseForm = () => {
             if (response.ok) {
                 alert('Expense updated successfully');
                 const updatedProducts = products.map((p) => (p.id === expense.id ? updatedExpense : p));
-                setProducts(updatedProducts);
+                dispatch(expensesActions.editExpense(updatedProducts));
             } else {
                 console.error('Failed to update expense');
             }
@@ -120,7 +124,7 @@ const ExpenseForm = () => {
     const deleteExpenseHandler = async (id) =>{
         try {
             // Delete expense from the API
-            const response = await fetch(`https://expensetracker-e9a1b-default-rtdb.firebaseio.com/expenses/${id}.json`, {
+            const response = await fetch(`https://expensess-42887-default-rtdb.firebaseio.com/expenses/${id}.json`, {
                 method: 'DELETE',
                 
             });
@@ -131,7 +135,7 @@ const ExpenseForm = () => {
                 // Delete expense from the UI
                 const updatedProducts = products.filter((p) => p.id !== id);
         
-                setProducts(updatedProducts);
+                dispatch(expensesActions.setProducts(updatedProducts));
             } else {
                 const errorData = await response.json();
                 console.error('Failed to delete expense:', errorData);

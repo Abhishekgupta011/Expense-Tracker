@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import './Signup.css'
 import Layout from "../Layout/Layout";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -6,10 +6,11 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from "@mui/material/TextField";
 import { Link } from "react-router-dom";
-import AuthContext from '../Context/AuthContext';
 import ExpenseForm from "../Context/Expenses/ExpenseForm";
+import { authActions } from "../Store/AuthSlice";
+import { useDispatch } from "react-redux";
 const SignUp = () => {
-    const AuthCtx = useContext(AuthContext)
+    const dispatch = useDispatch()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [cPassword, setCpassword] = useState("");
@@ -35,7 +36,7 @@ const SignUp = () => {
             return;
         } else {
             try {
-                const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:${isLogin ? 'signInWithPassword' : 'signUp'}?key=AIzaSyDJk2qCxLvy8gpH7j8NlZsL7Zg0QeB6ZVA`, {
+                const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:${isLogin ? 'signInWithPassword' : 'signUp'}?key=AIzaSyDCPqUw7nUyeBo-hGlbZLX_ICNEO-8Qgmo`, {
                     method: 'POST',
                     headers: {
                         "Content-Type": 'application/json'
@@ -50,7 +51,7 @@ const SignUp = () => {
                 if (response.ok) {
                     alert(`${isLogin ? 'Login' : 'Sign-Up'} successful`, 'success');
                     console.log(responseData);
-                    AuthCtx.login(responseData.idToken);
+                    dispatch(authActions.login(responseData.idToken));
                     localStorage.setItem("email" , email);
                     if(isLogin){
                         setLoggedIn(true);
@@ -108,6 +109,6 @@ const SignUp = () => {
             
         </>
     )
-}
+};
 
 export default SignUp;
