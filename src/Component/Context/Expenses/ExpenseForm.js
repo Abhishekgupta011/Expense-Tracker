@@ -154,7 +154,7 @@ const ExpenseForm = () => {
     // useEffect(()=>{
     //     console.log("useffect product" , products)
     // })
-
+    const totalExpenses = products.reduce((total, expense) => total + parseFloat(expense.amount), 0);
 
     return (
         <>
@@ -165,7 +165,9 @@ const ExpenseForm = () => {
             <input type="text" id="amount" value={amount} onChange={amountHandler} placeholder="Enter amount" />
             <label htmlFor="category">Category</label>
             <input type="text" id="category" value={category} onChange={categoryHandler} placeholder="Describe here" />
-            <button type="submit">Add Expense</button>  
+            <button type="submit">Add Expense</button>
+            <h3>Total Expenses: {totalExpenses}</h3>
+            {totalExpenses > 10000 && <button type="button">Activate Premium</button>} 
         </form>
         <ExpenseList 
         products={products}  

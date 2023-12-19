@@ -4,13 +4,16 @@ const expensesSlice = createSlice({
   name: 'expenses',
   initialState: {
     products: [],
+    total: 0,
   },
   reducers: {
     initialExpenses(state , action){
         state.products = action.payload;
+        
     },
     addExpense(state, action) {
       state.products.push(action.payload);
+      state.total += Number(action.payload);
     },
     
     editExpense(state, action) {
