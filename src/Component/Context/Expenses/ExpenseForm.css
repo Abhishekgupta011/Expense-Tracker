@@ -1,3 +1,17 @@
+.expense-form {
+    /* Styles for light mode */
+    background-color: #fff;
+    color: #333;
+    
+}
+
+.expense-form.dark {
+    /* Styles for dark mode */
+    background-color: #333;
+    color: #fff;
+    
+}
+
 .expense-form{
     max-width: 300px;
     margin: 0 auto;

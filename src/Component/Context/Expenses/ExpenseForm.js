@@ -3,10 +3,13 @@ import ExpenseList from "./ExpenseList";
 import './ExpenseForm.css';
 import { expensesActions } from "../../Store/ExpenseSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { PremiumAction } from "../../Store/PremiumSlice";
+import { themeActions } from "../../Store/ThemeSlice";
 
 const ExpenseForm = () => {
     const dispatch = useDispatch();
     const products = useSelector((state)=>state.expense.products)
+    const isDarkMode = useSelector((state) => state.theme.isDarkMode);
     const [description, setDescription] = useState("");
     const [amount, setAmount] = useState('');
     const [category, setCategory] = useState("");
@@ -155,10 +158,23 @@ const ExpenseForm = () => {
     //     console.log("useffect product" , products)
     // })
     const totalExpenses = products.reduce((total, expense) => total + parseFloat(expense.amount), 0);
+    const toggleDarkModeHandler = () => {
+        console.log(dispatch(themeActions.isDarkModeTrue()));
+        console.log('light')
+    }
+    const downloadCSVHandler = () => {
+        const csvContent = "id,description,amount,category\n" +
+            products.map(expense => Object.values(expense).join(",")).join("\n");
 
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'expenses.csv';
+        link.click();
+    };
     return (
         <>
-        <form className="expense-form" onSubmit={ExpenseProductListHandler}>
+        <form className={`expense-form ${isDarkMode ? 'dark' : ''}`} onSubmit={ExpenseProductListHandler}>
             <label htmlFor="description">Description</label>
             <input type="text" id="description" value={description} onChange={descriptionHandler} placeholder="Describe here" />
             <label htmlFor="amount">Amount</label>
@@ -168,6 +184,12 @@ const ExpenseForm = () => {
             <button type="submit">Add Expense</button>
             <h3>Total Expenses: {totalExpenses}</h3>
             {totalExpenses > 10000 && <button type="button">Activate Premium</button>} 
+            <button type="button" onClick={toggleDarkModeHandler}>
+                    {isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            </button>
+            <button type="button" onClick={downloadCSVHandler}>
+                    Download CSV
+            </button>
         </form>
         <ExpenseList 
         products={products}  
