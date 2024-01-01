@@ -3,12 +3,14 @@ import './ExpenseList.css';
 import { useSelector } from "react-redux";
 
 const ExpenseList = (props) => {
-  const products = useSelector((state)=>state.expense.products)
+  const products = useSelector((state)=>state.expense.products);
+  //console.log('productList' , products)
     return (
         <div className="list">
             <ol className="order">
                 {products.map((product) =>  {
-    
+                    // console.log('description' , product.description)
+                    console.log('id' , product.id)
                     return (
                         <li className="listitems" key={product.id}>
                             <span className="des">{product.description}</span>

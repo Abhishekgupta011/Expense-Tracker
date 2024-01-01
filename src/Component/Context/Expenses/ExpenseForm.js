@@ -3,17 +3,19 @@ import ExpenseList from "./ExpenseList";
 import './ExpenseForm.css';
 import { expensesActions } from "../../Store/ExpenseSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { PremiumAction } from "../../Store/PremiumSlice";
 import { themeActions } from "../../Store/ThemeSlice";
 
 const ExpenseForm = () => {
     const dispatch = useDispatch();
     const products = useSelector((state)=>state.expense.products)
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+    const onEdited = useSelector(state=>state.expense.onEdited)
     const [description, setDescription] = useState("");
     const [amount, setAmount] = useState('');
     const [category, setCategory] = useState("");
+    const [nextId , setNextId] = useState(0);
     
+    const crudUrl = "https://crudcrud.com/api/7dcd53a72afa4fc1a034d7670f0f0c17";
     const descriptionHandler = (event) => {
         setDescription(event.target.value);
     }
@@ -28,7 +30,7 @@ const ExpenseForm = () => {
 
     const getExpenses = async () => {
         try {
-            const response = await fetch("https://expensess-42887-default-rtdb.firebaseio.com/expenses.json", {
+            const response = await fetch(`${crudUrl}/expenses`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -49,62 +51,60 @@ const ExpenseForm = () => {
         }
     };
 
-    const generateUniqueId = () => {
-        return Date.now(); // Using timestamp as a simple way to generate a unique ID
-    }
+   
 
     const ExpenseProductListHandler = async (event) => {
         event.preventDefault();
         
-
         try {
-            const response = await fetch("https://expensess-42887-default-rtdb.firebaseio.com/expenses.json", {
+            const response = await fetch(`${crudUrl}/expenses`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    
-                        id: generateUniqueId(), // Set a unique ID using the timestamp
-                        description,
-                        amount,
-                        category,
-                    
-                })
+                body: JSON.stringify({ id: nextId, // Set a unique ID using the timestamp
+        description,
+        amount,
+        category, })
             });
 
             if (response.ok) {
 
                 alert('Product added successfully');
-                dispatch(expensesActions.addExpense([...products, {id: generateUniqueId(),
+                dispatch(expensesActions.addExpense( {id: nextId, // Set a unique ID using the timestamp
                 description,
                 amount,
-                category,}]));
-             
+                category,}));
                 setAmount('');
                 setCategory('');
                 setDescription('');
+                setNextId(nextId+1);
                 
             }
         } catch (error) {
             console.error('Something went wrong', error);
         }
     }
-
-    const editExpenseHandler = async (expense)=>{
-
+    const editValues = (expense)=>{
+        dispatch(expensesActions.setEdited(true))
         setDescription(expense.description);
         setAmount(expense.amount);
         setCategory(expense.category);
+        
+    }
+    const editExpenseHandler = async (expense)=>{
+        console.log(expense.id);
         try {
             const updatedExpense = {
+                
                 id: expense.id,
                 description,
                 amount,
                 category,
             };
+            console.log('updatedExpense' , updatedExpense)
 
-            const response = await fetch(`https://expensess-42887-default-rtdb.firebaseio.com/expenses/${expense.id}.json`, {
+            const response = await fetch(`${crudUrl}/expenses/${expense.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -116,6 +116,10 @@ const ExpenseForm = () => {
                 alert('Expense updated successfully');
                 const updatedProducts = products.map((p) => (p.id === expense.id ? updatedExpense : p));
                 dispatch(expensesActions.editExpense(updatedProducts));
+                dispatch(expensesActions.setEdited(false));
+                setDescription('');
+                setAmount('');
+                setCategory('');
             } else {
                 console.error('Failed to update expense');
             }
@@ -125,20 +129,18 @@ const ExpenseForm = () => {
     }
 
     const deleteExpenseHandler = async (id) =>{
+        console.log('jjjjjjjj',id)
         try {
             // Delete expense from the API
-            const response = await fetch(`https://expensess-42887-default-rtdb.firebaseio.com/expenses/${id}.json`, {
+            const response = await fetch(`${crudUrl}/expenses`, {
                 method: 'DELETE',
                 
             });
 
             if (response.ok) {
                 alert('Expense deleted successfully');
-
-                // Delete expense from the UI
-                const updatedProducts = products.filter((p) => p.id !== id);
-        
-                dispatch(expensesActions.setProducts(updatedProducts));
+                dispatch(expensesActions.deleteExpense(id));
+                console.log('jjjjjjjj',id)
             } else {
                 const errorData = await response.json();
                 console.error('Failed to delete expense:', errorData);
@@ -162,10 +164,10 @@ const ExpenseForm = () => {
         console.log(dispatch(themeActions.isDarkModeTrue()));
         console.log('light')
     }
-    const downloadCSVHandler = () => {
+    const downloadCSVHandler = (event) => {
+        event.preventDefault();
         const csvContent = "id,description,amount,category\n" +
-            products.map(expense => Object.values(expense).join(",")).join("\n");
-
+        products.map(expense => Object.values(expense).join(",")).join("\n");
         const blob = new Blob([csvContent], { type: 'text/csv' });
         const link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
@@ -181,22 +183,22 @@ const ExpenseForm = () => {
             <input type="text" id="amount" value={amount} onChange={amountHandler} placeholder="Enter amount" />
             <label htmlFor="category">Category</label>
             <input type="text" id="category" value={category} onChange={categoryHandler} placeholder="Describe here" />
-            <button type="submit">Add Expense</button>
+            {onEdited ?<button type="button" onClick={editExpenseHandler}>Update Expense</button>:<button type="submit">Add Expense</button>}
             <h3>Total Expenses: {totalExpenses}</h3>
             {totalExpenses > 10000 && <button type="button">Activate Premium</button>} 
             <button type="button" onClick={toggleDarkModeHandler}>
                     {isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
             </button>
-            <button type="button" onClick={downloadCSVHandler}>
+            <button type="button" onClick={downloadCSVHandler} >
                     Download CSV
             </button>
         </form>
         <ExpenseList 
         products={products}  
-        onEditExpense={editExpenseHandler}
+        onEditExpense={editValues}
         onDeleteExpense={deleteExpenseHandler}/>
         </>
     );
-}
+};
 
 export default ExpenseForm;

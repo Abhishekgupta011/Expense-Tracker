@@ -5,6 +5,7 @@ const expensesSlice = createSlice({
   initialState: {
     products: [],
     total: 0,
+    onEdited : false,
   },
   reducers: {
     initialExpenses(state , action){
@@ -15,15 +16,25 @@ const expensesSlice = createSlice({
       state.products.push(action.payload);
       state.total += Number(action.payload);
     },
-    
+    setEdited(state, action) {
+      state.onEdited = action.payload;
+  },
     editExpense(state, action) {
-      const index = state.products.findIndex((expense) => expense.id === action.payload.id);
-      if (index !== -1) {
-        state.products[index] = action.payload;
+      const id = action.payload.id;
+      console.log("edit id " , id)
+      const index = state.products.findIndex((expense) => expense.id === id);
+      if (index!==-1) {
+        state.total =
+          +state.total -
+          Number(state.items[index].amount) +
+          Number(action.payload.amount);
+        state.items[index] = action.payload;
       }
     },
     deleteExpense(state, action) {
-      state.products = state.products.filter((expense) => expense.id !== action.payload);
+      const idToDelete = action.payload;
+      state.products = state.products.filter((expense) => expense.id !== idToDelete);
+      state.total -= Number(state.products.find((expense) => expense.id === idToDelete)?.amount || 0);
     },
  
   },
