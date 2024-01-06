@@ -20,21 +20,28 @@ const expensesSlice = createSlice({
       state.onEdited = action.payload;
   },
     editExpense(state, action) {
-      const id = action.payload.id;
+      const id = action.payload.updatedProducts.id;
+
       console.log("edit id " , id)
+      
       const index = state.products.findIndex((expense) => expense.id === id);
+      console.log(state.products[index])
       if (index!==-1) {
         state.total =
           +state.total -
-          Number(state.items[index].amount) +
+          Number(state.products[index].amount) +
           Number(action.payload.amount);
-        state.items[index] = action.payload;
+        state.products[index] = action.payload;
       }
     },
     deleteExpense(state, action) {
       const idToDelete = action.payload;
-      state.products = state.products.filter((expense) => expense.id !== idToDelete);
-      state.total -= Number(state.products.find((expense) => expense.id === idToDelete)?.amount || 0);
+      console.log("idtodelete" , idToDelete)
+      state.products = state.products.filter((expense) =>{
+        console.log('expenseid', expense._id)
+        return expense._id !== idToDelete;
+      } )
+      state.total -= Number(state.products.find((expense) => expense._id === idToDelete)?.amount || 0);
     },
  
   },

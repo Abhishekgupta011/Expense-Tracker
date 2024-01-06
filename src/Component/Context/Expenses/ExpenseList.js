@@ -10,14 +10,14 @@ const ExpenseList = (props) => {
             <ol className="order">
                 {products.map((product) =>  {
                     // console.log('description' , product.description)
-                    console.log('id' , product.id)
+                    console.log('id' , product._id)
                     return (
                         <li className="listitems" key={product.id}>
                             <span className="des">{product.description}</span>
                             <span className="am">{product.amount}</span>
                             <span className="cat">{product.category}</span>
                             <button onClick={()=>props.onEditExpense(product)}>Edit</button>
-                            <button onClick={()=>props.onDeleteExpense(product.id)}>Delete</button>
+                            <button onClick={()=>props.onDeleteExpense(product._id)}>Delete</button>
                         </li>
                     );
                 })}
