@@ -7,8 +7,8 @@ const ForgotPassword = () =>{
     }
     const nPasswordSubmitHandler = async(e)=>{
         e.preventDefault();
-        const storedToken = localStorage.getItem("IdToken")
-        const getEmail = localStorage.getItem("email")
+        // const storedToken = localStorage.getItem("idToken")
+        // const getEmail = localStorage.getItem("email")
         try{
             const response = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDJk2qCxLvy8gpH7j8NlZsL7Zg0QeB6ZVA",{
                 method : "POST",

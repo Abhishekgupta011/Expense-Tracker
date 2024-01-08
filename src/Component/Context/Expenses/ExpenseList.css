@@ -1,30 +1,68 @@
 .list {
-    margin: 20px;
-  }
-  
-  .order {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .listitems {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .des {
-    font-weight: bold;
-  }
-  
-  .am {
-    margin-left: 10px;
-  }
-  
-  .cat {
-    margin-left: 10px;
-    color: #888;
-  }
-  
+  margin: 20px;
+}
+
+.order {
+  list-style-type: none;
+  padding: 0;
+}
+
+.listitems {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  width: 60%;
+  background-color: #f9f9f9; /* Light gray background */
+  transition: background-color 0.3s ease;
+}
+
+.listitems:hover {
+  background-color: #eaeaea; /* Slightly darker gray on hover */
+}
+
+.title-row {
+  font-weight: bold;
+  background-color: #007bff;
+  color: #fff;
+}
+
+.des,
+.am,
+.cat {
+  flex: 1;
+  margin-left: 10px;
+}
+
+.cat {
+  color: #555; /* Dark gray for category */
+}
+
+.actions {
+  flex: 1;
+  display: flex;
+  justify-content: space-around;
+}
+
+.actions button {
+  padding: 5px 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 3px;
+  color: #fff;
+}
+
+.actions button.edit {
+  background-color: #4caf50; /* Green for Edit */
+}
+
+.actions button.delete {
+  background-color: #d9534f; /* Red for Delete */
+}
+
+.actions button:hover {
+  opacity: 0.8;
+}

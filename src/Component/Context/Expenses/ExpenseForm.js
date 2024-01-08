@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { themeActions } from "../../Store/ThemeSlice";
 import { v4 as uuidv4 } from 'uuid';
 
-// ... (previous imports and code)
-
 const ExpenseForm = () => {
     const dispatch = useDispatch();
     const products = useSelector((state) => state.expense.products);
@@ -17,9 +15,21 @@ const ExpenseForm = () => {
     const [amount, setAmount] = useState('');
     const [category, setCategory] = useState("");
     const [selectedExpense, setSelectedExpense] = useState(null); // New state to store the selected expense
+    const [loading, setLoading] = useState(false);
 
-    const crudUrl = "https://crudcrud.com/api/4bbd04f4d89a48108dc57e544333073f";
-
+    const crudUrl = "https://crudcrud.com/api/53961cf94b0240d9a9d4e7bf19f792eb";
+    const getSanitizedEmail = () => {
+        let email = localStorage.getItem("email");
+        console.log(email)
+        if (email) {
+          const updatedEmail = email.replace(/[^a-zA-Z0-9]/g, "");
+          console.log(updatedEmail);
+          return updatedEmail;
+        }
+        
+        return null;
+        
+      };
     const descriptionHandler = (event) => {
         setDescription(event.target.value);
     };
@@ -32,9 +42,9 @@ const ExpenseForm = () => {
         setCategory(event.target.value);
     };
 
-    const getExpenses = async () => {
+    const getExpenses = async (updatedEmail) => {
         try {
-            const response = await fetch(`${crudUrl}/expenses`, {
+            const response = await fetch(`${crudUrl}/expenses${updatedEmail}`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -58,11 +68,12 @@ const ExpenseForm = () => {
         return uuidv4();
     };
 
-    const ExpenseProductListHandler = async (event) => {
+    const ExpenseProductListHandler = async (event,updatedEmail) => {
         event.preventDefault();
 
         try {
-            const response = await fetch(`${crudUrl}/expenses`, {
+            setLoading(true)
+            const response = await fetch(`${crudUrl}/expenses${updatedEmail}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -76,7 +87,7 @@ const ExpenseForm = () => {
             });
 
             if (response.ok) {
-                alert('Product added successfully');
+                console.log('Product added successfully');
                 getExpenses();
                 dispatch(expensesActions.addExpense({
                     id: generateId(),
@@ -90,10 +101,20 @@ const ExpenseForm = () => {
             }
         } catch (error) {
             console.error('Something went wrong', error);
+        }finally {
+            setLoading(false); // Set loading to false after the API call is completed
         }
     };
+    const onEditExpense = (expense) => {
+        dispatch(expensesActions.setEdited(true));
+        setDescription(expense.description);
+        setAmount(expense.amount);
+        setCategory(expense.category);
+        setSelectedExpense(expense); // Set the selected expense
+    };
 
-    const editExpenseHandler = async () => {
+    const editExpenseHandler = async (updatedEmail) => {
+        console.log(updatedEmail)
         if (!selectedExpense) {
             console.error('No expense selected for editing.');
             return;
@@ -105,9 +126,10 @@ const ExpenseForm = () => {
             amount,
             category,
         };
-        console.log("ffffff" , updatedExpense)
+        //console.log("ffffff" , updatedExpense)
         try {
-            const response = await fetch(`${crudUrl}/expenses/${selectedExpense._id}`, {
+            setLoading(true)
+            const response = await fetch(`${crudUrl}/expenses${updatedEmail}/${selectedExpense._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -116,12 +138,10 @@ const ExpenseForm = () => {
             });
 
             if (response.ok) {
-                alert('Expense updated successfully');
-                const updatedProducts = products.map((p) => (p._id === selectedExpense._id ? updatedExpense : p));
-                
-                dispatch(expensesActions.editExpense(updatedProducts));
+                console.log('Expense updated successfully');
+                dispatch(expensesActions.editExpense( updatedExpense ));
                 dispatch(expensesActions.setEdited(false));
-                console.log("updated" , updatedProducts)
+                //console.log("updated" , updatedExpense)
                 setDescription('');
                 setAmount('');
                 setCategory('');
@@ -131,12 +151,15 @@ const ExpenseForm = () => {
             }
         } catch (error) {
             console.error('Something went wrong', error);
+        }finally {
+            setLoading(false); // Set loading to false after the API call is completed
         }
     };
 
-    const deleteExpenseHandler = async (_id) => {
+    const deleteExpenseHandler = async (_id , updatedEmail) => {
         try {
-            const response = await fetch(`${crudUrl}/expenses/${_id}`, {
+            setLoading(true)
+            const response = await fetch(`${crudUrl}/expenses${updatedEmail}/${_id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -144,7 +167,7 @@ const ExpenseForm = () => {
             });
 
             if (response.ok) {
-                alert('Expense deleted successfully');
+                console.log('Expense deleted successfully');
                 dispatch(expensesActions.deleteExpense(_id));
             } else {
                 const errorData = await response.json();
@@ -152,21 +175,17 @@ const ExpenseForm = () => {
             }
         } catch (error) {
             console.error('Something went wrong', error);
+        }finally {
+            setLoading(false); // Set loading to false after the API call is completed
         }
     };
 
-    const onEditExpense = (expense) => {
-        dispatch(expensesActions.setEdited(true));
-        setDescription(expense.description);
-        setAmount(expense.amount);
-        setCategory(expense.category);
-        setSelectedExpense(expense); // Set the selected expense
-    };
-
     useEffect(() => {
-        console.log("useEffect is running");
-        getExpenses();
-    }, []);
+        //console.log("useEffect is running");
+        const updatedEmail = getSanitizedEmail()
+        getExpenses(updatedEmail);
+    }, [selectedExpense]);
+    
 
     const totalExpenses = products.reduce((total, expense) => total + parseFloat(expense.amount), 0);
 
@@ -177,25 +196,33 @@ const ExpenseForm = () => {
 
     const downloadCSVHandler = (event) => {
         event.preventDefault();
-        const csvContent = "id,description,amount,category\n" +
-            products.map(expense => Object.values(expense).join(",")).join("\n");
+        const csvContent = "description,amount,category\n" +
+            products.map(({ id, ...rest }) => Object.values(rest).join(",")).join("\n");
+    
         const blob = new Blob([csvContent], { type: 'text/csv' });
         const link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
         link.download = 'expenses.csv';
         link.click();
     };
+    
 
     return (
         <>
-            <form className={`expense-form ${isDarkMode ? 'dark' : ''}`} onSubmit={ExpenseProductListHandler}>
+        {loading && (
+                <div className="loader-container">
+                    <div className="loader"></div>
+                </div>
+            )}
+            <form className={`expense-form ${isDarkMode ? 'dark' : ''}`} 
+            onSubmit={(e) => ExpenseProductListHandler(e, getSanitizedEmail())}>
                 <label htmlFor="description">Description</label>
                 <input type="text" id="description" value={description} onChange={descriptionHandler} placeholder="Describe here" />
                 <label htmlFor="amount">Amount</label>
                 <input type="text" id="amount" value={amount} onChange={amountHandler} placeholder="Enter amount" />
                 <label htmlFor="category">Category</label>
                 <input type="text" id="category" value={category} onChange={categoryHandler} placeholder="Describe here" />
-                {onEdited ? <button type="button" onClick={editExpenseHandler}>Update Expense</button> : <button type="submit">Add Expense</button>}
+                {onEdited ? <button type="button" onClick={()=>editExpenseHandler(getSanitizedEmail())}>Update Expense</button> : <button type="submit">Add Expense</button>}
                 <h3>Total Expenses: {totalExpenses}</h3>
                 {totalExpenses > 10000 && <button type="button">Activate Premium</button>}
                 <button type="button" onClick={toggleDarkModeHandler}>
@@ -208,7 +235,8 @@ const ExpenseForm = () => {
             <ExpenseList
                 products={products}
                 onEditExpense={onEditExpense}
-                onDeleteExpense={deleteExpenseHandler} />
+                onDeleteExpense={deleteExpenseHandler}
+                getSanitizedEmail={getSanitizedEmail} />
         </>
     );
 };

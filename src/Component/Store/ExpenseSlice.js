@@ -20,11 +20,12 @@ const expensesSlice = createSlice({
       state.onEdited = action.payload;
   },
     editExpense(state, action) {
-      const id = action.payload.updatedProducts.id;
+      const updatedProducts = action.payload;
 
-      console.log("edit id " , id)
+      console.log("edited products " , updatedProducts)
+      console.log("edited id " , updatedProducts.description)
       
-      const index = state.products.findIndex((expense) => expense.id === id);
+      const index = state.products.findIndex((expense) => expense.id === updatedProducts.id);
       console.log(state.products[index])
       if (index!==-1) {
         state.total =
@@ -36,9 +37,9 @@ const expensesSlice = createSlice({
     },
     deleteExpense(state, action) {
       const idToDelete = action.payload;
-      console.log("idtodelete" , idToDelete)
+      //console.log("idtodelete" , idToDelete)
       state.products = state.products.filter((expense) =>{
-        console.log('expenseid', expense._id)
+        //console.log('expenseid', expense._id)
         return expense._id !== idToDelete;
       } )
       state.total -= Number(state.products.find((expense) => expense._id === idToDelete)?.amount || 0);

@@ -1,9 +1,17 @@
-import React, { useContext } from "react";
+import React from "react";
 import "./Navbar.css"
-import AuthContext from "../Context/AuthContext";
+import { useDispatch } from "react-redux";
+import { authActions } from "../Store/AuthSlice";
+import { useNavigate } from "react-router";
 const Navbar = () =>{
-
-   const AuthCtx = useContext(AuthContext)
+ const dispatch = useDispatch();
+ const navigate = useNavigate();
+ const logoutHandler = ()=>{
+    dispatch(authActions.logout());
+    localStorage.removeItem("idToken");
+    navigate('/')
+    localStorage.removeItem("email");
+ }
     return(
         <div>
             <nav className="navbar">
@@ -11,7 +19,7 @@ const Navbar = () =>{
                     <li>Home</li>
                     <li>About</li>
                     <li>Contact Us</li>
-                    <li><button onClick={AuthCtx.logout}>Logout</button></li>
+                    <li><button onClick={logoutHandler}>Logout</button></li>
                 </ul>
             </nav>
         </div>
