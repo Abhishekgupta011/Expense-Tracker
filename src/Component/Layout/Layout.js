@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const Layout = () => {
     return (
         <div className="welcome">
-            <div>
+            <div className="title">
                 <h1>Welcome to Expense Tracker</h1>
             </div>
             <div className="profile">

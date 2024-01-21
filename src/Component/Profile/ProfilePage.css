@@ -14,6 +14,7 @@
 .u-form label{
     display: block;
     margin-bottom: 5px;
+    color: white;
 }
 .u-form input{
     width: 90%;
@@ -28,6 +29,9 @@
     padding: 3%;
     display: flex;
     justify-content: space-between;
+}
+.form-header h1{
+    color: white;
 }
 .form-header button{
     background: none;

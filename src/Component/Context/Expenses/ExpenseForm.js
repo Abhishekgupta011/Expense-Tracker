@@ -17,7 +17,7 @@ const ExpenseForm = () => {
     const [selectedExpense, setSelectedExpense] = useState(null); // New state to store the selected expense
     const [loading, setLoading] = useState(false);
 
-    const crudUrl = "https://crudcrud.com/api/53961cf94b0240d9a9d4e7bf19f792eb";
+    const crudUrl = "https://crudcrud.com/api/d3b8236394174c85b181bebda4ecf43a";
     const getSanitizedEmail = () => {
         let email = localStorage.getItem("email");
         console.log(email)
@@ -88,7 +88,7 @@ const ExpenseForm = () => {
 
             if (response.ok) {
                 console.log('Product added successfully');
-                getExpenses();
+                getExpenses(updatedEmail);
                 dispatch(expensesActions.addExpense({
                     id: generateId(),
                     description,
@@ -98,6 +98,7 @@ const ExpenseForm = () => {
                 setAmount('');
                 setCategory('');
                 setDescription('');
+                
             }
         } catch (error) {
             console.error('Something went wrong', error);
@@ -157,6 +158,8 @@ const ExpenseForm = () => {
     };
 
     const deleteExpenseHandler = async (_id , updatedEmail) => {
+        console.log('Deleting expense with _id:', _id);
+        console.log('Updated email:', updatedEmail);
         try {
             setLoading(true)
             const response = await fetch(`${crudUrl}/expenses${updatedEmail}/${_id}`, {
@@ -181,7 +184,7 @@ const ExpenseForm = () => {
     };
 
     useEffect(() => {
-        //console.log("useEffect is running");
+        console.log("useEffect is running");
         const updatedEmail = getSanitizedEmail()
         getExpenses(updatedEmail);
     }, [selectedExpense]);
@@ -217,18 +220,38 @@ const ExpenseForm = () => {
             <form className={`expense-form ${isDarkMode ? 'dark' : ''}`} 
             onSubmit={(e) => ExpenseProductListHandler(e, getSanitizedEmail())}>
                 <label htmlFor="description">Description</label>
-                <input type="text" id="description" value={description} onChange={descriptionHandler} placeholder="Describe here" />
+                <input 
+                type="text" 
+                id="description" 
+                value={description} 
+                onChange={descriptionHandler} 
+                placeholder="Describe here"
+                required />
                 <label htmlFor="amount">Amount</label>
-                <input type="text" id="amount" value={amount} onChange={amountHandler} placeholder="Enter amount" />
+                <input 
+                type="number" 
+                id="amount" 
+                value={amount} 
+                onChange={amountHandler} 
+                placeholder="Enter amount"
+                required />
                 <label htmlFor="category">Category</label>
-                <input type="text" id="category" value={category} onChange={categoryHandler} placeholder="Describe here" />
-                {onEdited ? <button type="button" onClick={()=>editExpenseHandler(getSanitizedEmail())}>Update Expense</button> : <button type="submit">Add Expense</button>}
+                <input 
+                type="text" 
+                id="category" 
+                value={category} 
+                onChange={categoryHandler} 
+                placeholder="Describe here"
+                required />
+                {onEdited ? <button type="button" 
+                onClick={()=>editExpenseHandler(getSanitizedEmail())}
+                >Update Expense</button> : <button type="submit" className="add-expense">Add Expense</button>}
                 <h3>Total Expenses: {totalExpenses}</h3>
                 {totalExpenses > 10000 && <button type="button">Activate Premium</button>}
-                <button type="button" onClick={toggleDarkModeHandler}>
+                <button type="button" onClick={toggleDarkModeHandler} className={`${isDarkMode ? 'switch-light' : 'switch-dark'}`}>
                     {isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
                 </button>
-                <button type="button" onClick={downloadCSVHandler}>
+                <button type="button" className="download-button" onClick={downloadCSVHandler}>
                     Download CSV
                 </button>
             </form>

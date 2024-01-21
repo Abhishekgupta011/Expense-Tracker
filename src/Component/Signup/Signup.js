@@ -3,8 +3,6 @@ import './Signup.css'
 import Layout from "../Layout/Layout";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import InputAdornment from '@mui/material/InputAdornment';
-import TextField from "@mui/material/TextField";
 import { Link } from "react-router-dom";
 import ExpenseForm from "../Context/Expenses/ExpenseForm";
 import { authActions } from "../Store/AuthSlice";
@@ -83,31 +81,29 @@ const SignUp = () => {
       }, [token]);
     return (
         <>
-            {isLoggedIn ? <Layout />:<form onSubmit={formSubmitHandler}>
-                <div className="form-container">
+            {isLoggedIn ? <Layout />:<div className="form-div">
+            <div className="main">
+            <span className="l1">Track Your</span><br/>
+            <span className="l2">Daily Expenses</span><br/>
+            {/* <span className="l3">Start Now --></span> */}
+            </div>
+            <form onSubmit={formSubmitHandler} className="form-container">
+                <div >
                     <label htmlFor="email">Email</label>
                     <input type="email" id="email" value={email} onChange={emailInputHandler} required placeholder="User Email" />
                     <label htmlFor="password">Password</label>
-                    <TextField
-                            type={visiblePassword ? "password" : "text"} 
-                            id="password"
-                            value={password}
-                            onChange={passwordInputHandler}
-                            required
-                            label="Password"
-                            className="password"
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        {visiblePassword ? (
-                                            <VisibilityOffIcon onClick={() => setVisiblePassword(false)} />
-                                        ) : (
-                                            <VisibilityIcon onClick={() => setVisiblePassword(true)} />
-                                        )}
-                                    </InputAdornment>
-                                )
-                            }}
-                        />
+                    <div className="password">
+                    <input 
+                    type={visiblePassword ? "text" : "password"} 
+                    id="password" 
+                    placeholder="Password" 
+                    onChange={passwordInputHandler}/>
+                        {visiblePassword ? (
+                            <VisibilityOffIcon onClick={() => setVisiblePassword(false)} className="icon" />
+                        ) : (
+                            <VisibilityIcon onClick={() => setVisiblePassword(true)} className="icon"/>
+                        )}
+                        </div>
                     {!isLogin && <label htmlFor="cpassword">Confirm Password</label>}
                     {!isLogin && <input type="password" id="cpassword" value={cPassword} onChange={cPasswordInputHandler} required placeholder="Confirm Password" />}
                     <button type="submit" disabled={loading}>
@@ -119,7 +115,7 @@ const SignUp = () => {
                                 isLogin ? "Login" : "Sign-Up"
                             )}
                         </button>
-                    {isLogin && <Link to="/fpassword">Forgot Password?</Link>}
+                    {isLogin && <Link to="/fpassword"><span className="forgot">Forgotten Password?</span></Link>}
                 </div>
                 <div className="toggle">
                     <button type="button"
@@ -127,7 +123,7 @@ const SignUp = () => {
                         className="toggle-button"
                     >{isLogin ? "Create New Account? Sign Up" : "Have an account? Login"}</button>
                 </div>
-            </form>}
+            </form></div>}
             {isLoggedIn && <ExpenseForm/>}
             
         </>

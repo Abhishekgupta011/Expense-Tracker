@@ -2,7 +2,6 @@
     /* Styles for light mode */
     background-color: #fff;
     color: #333;
-    
 }
 
 .expense-form.dark {
@@ -16,7 +15,7 @@
     max-width: 300px;
     margin: 0 auto;
     padding: 30px;
-    margin-top: 8%;
+    margin-top: 2%;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
@@ -27,7 +26,7 @@
 }
 
 .expense-form input{
-    width: 100%;
+    width: 92%;
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
@@ -35,12 +34,28 @@
     outline: none;
 }
 .expense-form button {
-    background-color: #ffae00;
-    color: #fff;
+    width: 100%;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-bottom: 5px;
+  }
+  .add-expense{
+    background-color: #7D0A0A;
+    color: #fff;
+  }
+  .switch-light{
+    background-color: #FF9800;
+    color: #fff;
+  }
+  .switch-dark{
+    background-color: #2c2c2b;
+    color: #fff;
+  }
+  .download-button{
+    background-color: #8b8b87;
+    color: #fff;
   }
   .loader-container {
     display: flex;

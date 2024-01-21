@@ -15,11 +15,12 @@ const Navbar = () =>{
     return(
         <div>
             <nav className="navbar">
+            <h1>EasyExpense</h1>
                 <ul className="nav-items">
                     <li>Home</li>
                     <li>About</li>
                     <li>Contact Us</li>
-                    <li><button onClick={logoutHandler}>Logout</button></li>
+                    <li><button onClick={logoutHandler} className="logout">Logout</button></li>
                 </ul>
             </nav>
         </div>

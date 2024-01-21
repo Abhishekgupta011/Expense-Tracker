@@ -1,6 +1,10 @@
 .welcome{
     display: flex;
     justify-content: space-between;
+    margin-bottom: 0;
+}
+.title{
+    margin-left: 34%;
 }
 span{
     color: red;
@@ -11,4 +15,7 @@ span{
     color: white;
     border-radius: 10px;
     padding: 10px;
+}
+.welcome h1{
+    color: white;
 }

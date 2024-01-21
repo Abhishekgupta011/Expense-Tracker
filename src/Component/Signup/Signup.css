@@ -1,61 +1,104 @@
+.form-div{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+form{
+  border: 1px solid #fff4e0f8;
+  border-radius: 5px;
+  margin-right: 5%;
+ 
+}
 .form-container {
-    max-width: 300px;
-    margin: 0 auto;
+    max-width: 350px;
+    margin: 2% auto;
     padding: 30px;
-    margin-top: 10%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  }
   
+  }
+  .visible-icon{
+    color: white;
+  }
   .form-container label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    color: white;
   }
   
   .form-container input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
+    width: 85%;
+    padding: 15px;
+    margin: 0 auto;
+    border: 1px solid #bbb7b7;
     border-radius: 5px;
+    font-size: large;
     outline: none;
+    color: white;
+    background: none;
+    display: block;
+  margin-bottom: 10px;
   }
-  
+  div .main{
+    margin-top: -9%;
+  }
+  div .main .l1{
+    font-size: 100px;
+    font-weight: bold;
+    margin-left: 1%;
+  }
+  div .main .l2{
+   
+    font-size: 120px;
+    font-weight: bold;
+    margin-bottom: 5%;
+  }
+  div .main .l3{
+    font-size: 40px;
+    color: #3D0000;
+    padding: 2%;
+    background-color: #F4CCA4;
+    border-radius: 10px;
+    font-weight: bold;
+ 
+    margin-left: 4%;
+  }
   .form-container button {
-    background-color: #007bff;
+    background-color: #4D4D4D;
+    width: 100%;
     color: #fff;
-    padding: 10px 20px;
+    padding: 15px 20px;
     border: none;
     border-radius: 5px;
+    font-size: large;
     cursor: pointer;
   }
   
   .form-container button:hover {
-    background-color: #0056b3;
+    color: #F4CCA4;
+    transition: background-color 1s ease-out, color 1 ease-out, ease-out;
   }
   .toggle{
     max-width: 200px;
     margin: 0 auto;
     margin-top: 1%;
+   
   }
   .toggle button {
-    background-color: rgba(161, 239, 245, 0.404);
-    border: solid 0.5px black;
-    color: #c07575;
     padding: 10px 10px;
     cursor: pointer;
   }
-  .password{
-    width: 107%;
-  
+   .password{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 108%;
   }
-  
+  .icon{
+    color: white;
+    transform: translateX(-40px) translateY(-7px);
+  }
   .toggle button:hover {
-    background-color: #69d8e0;
-    color: black;
-    border: 1px solid #ccc; 
-    transition: background-color 0.2s ease-out, color 0.2s ease-out, border 0.2s ease-out; 
+    color: #007bff;
+    transition:  0.2s ease-out, color 0.2s ease-out, border 0.2s ease-out; 
   }
 
   
@@ -63,13 +106,23 @@
     margin-top: 10px;
     background: none;
     border: none;
-    color: #007bff;
+    color: #527497;
     cursor: pointer;
   }
-  .fpassword{
-    color: black;
-  }
- 
+
+ .forgot{
+  display: block;
+  text-align: center;
+  margin-top: 10px; /* Adjust the margin as needed */
+  color: #527497; /* Set the color as per your design */
+  text-decoration: none;
+  font-size: 14px;
+ }
+ .forgot:hover{
+  
+  color: #007bff;
+  
+ }
 
 .loader-container {
   display: flex;
