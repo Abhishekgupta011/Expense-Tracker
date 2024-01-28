@@ -17,7 +17,7 @@ const ExpenseForm = () => {
     const [selectedExpense, setSelectedExpense] = useState(null); // New state to store the selected expense
     const [loading, setLoading] = useState(false);
 
-    const crudUrl = "https://crudcrud.com/api/d3b8236394174c85b181bebda4ecf43a";
+    const crudUrl = "https://crudcrud.com/api/5cd049006d064fc08ce1fbd20298482b";
     const getSanitizedEmail = () => {
         let email = localStorage.getItem("email");
         console.log(email)
@@ -249,7 +249,8 @@ const ExpenseForm = () => {
                 <h3>Total Expenses: {totalExpenses}</h3>
                 {totalExpenses > 10000 && <button type="button">Activate Premium</button>}
                 <button type="button" onClick={toggleDarkModeHandler} className={`${isDarkMode ? 'switch-light' : 'switch-dark'}`}>
-                    {isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+                    {isDarkMode && "Switch to Light Mode" }
+                    {!isDarkMode&& "Switch to Dark Mode"}
                 </button>
                 <button type="button" className="download-button" onClick={downloadCSVHandler}>
                     Download CSV
