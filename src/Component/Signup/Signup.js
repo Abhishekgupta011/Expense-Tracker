@@ -99,9 +99,9 @@ const SignUp = () => {
                     placeholder="Password" 
                     onChange={passwordInputHandler}/>
                         {visiblePassword ? (
-                            <VisibilityOffIcon onClick={() => setVisiblePassword(false)} className="icon" />
+                            <VisibilityOffIcon onClick={() => setVisiblePassword(false)} className="icon" data-testid="icon" />
                         ) : (
-                            <VisibilityIcon onClick={() => setVisiblePassword(true)} className="icon"/>
+                            <VisibilityIcon onClick={() => setVisiblePassword(true)} className="icon" data-testid="icon"/>
                         )}
                         </div>
                     {!isLogin && <label htmlFor="cpassword">Confirm Password</label>}
