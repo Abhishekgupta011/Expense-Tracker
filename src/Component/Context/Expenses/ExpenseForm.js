@@ -17,7 +17,7 @@ const ExpenseForm = () => {
     const [selectedExpense, setSelectedExpense] = useState(null); // New state to store the selected expense
     const [loading, setLoading] = useState(false);
 
-    const crudUrl = "https://crudcrud.com/api/5cd049006d064fc08ce1fbd20298482b";
+    const crudUrl = "https://crudcrud.com/api/4332f7ee90294058ad291300fde42720";
     const getSanitizedEmail = () => {
         let email = localStorage.getItem("email");
         console.log(email)
@@ -57,7 +57,9 @@ const ExpenseForm = () => {
 
                 if (data.length > 0) {
                     dispatch(expensesActions.initialExpenses(expensesArray));
-                }
+                } 
+            }else {
+                console.error('Fetch error:', response.status); // Log the error status
             }
         } catch (error) {
             console.error('Error fetching expenses:', error);

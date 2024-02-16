@@ -6,14 +6,14 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Link } from "react-router-dom";
 import ExpenseForm from "../Context/Expenses/ExpenseForm";
 import { authActions } from "../Store/AuthSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 const SignUp = () => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [cPassword, setCpassword] = useState("");
     const [isLogin, setLogin] = useState(true);
-    const [isLoggedIn, setLoggedIn] = useState(false); 
     const [visiblePassword , setVisiblePassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const storedToken = localStorage.getItem("idToken");
@@ -58,7 +58,7 @@ const SignUp = () => {
                     localStorage.setItem("idToken" , responseData.idToken);
                     setToken(responseData.idToken)
                     if(isLogin){
-                        setLoggedIn(true);
+                        dispatch(authActions.login());
                     }
                     
                 } else {
@@ -90,7 +90,13 @@ const SignUp = () => {
             <form onSubmit={formSubmitHandler} className="form-container">
                 <div >
                     <label htmlFor="email">Email</label>
-                    <input type="email" id="email" value={email} onChange={emailInputHandler} required placeholder="User Email" />
+                    <input 
+                    type="email" 
+                    id="email" 
+                    value={email} 
+                    onChange={emailInputHandler} 
+                    required 
+                    placeholder="User Email" />
                     <label htmlFor="password">Password</label>
                     <div className="password">
                     <input 
@@ -105,7 +111,13 @@ const SignUp = () => {
                         )}
                         </div>
                     {!isLogin && <label htmlFor="cpassword">Confirm Password</label>}
-                    {!isLogin && <input type="password" id="cpassword" value={cPassword} onChange={cPasswordInputHandler} required placeholder="Confirm Password" />}
+                    {!isLogin && <input 
+                    type="password" 
+                    id="cpassword" 
+                    value={cPassword} 
+                    onChange={cPasswordInputHandler} 
+                    required 
+                    placeholder="Confirm Password" />}
                     <button type="submit" disabled={loading}>
                             {loading ? (
                                 <div className="loader-container">
