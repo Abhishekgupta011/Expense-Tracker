@@ -10,14 +10,15 @@ import { useDispatch, useSelector } from "react-redux";
 const SignUp = () => {
     const dispatch = useDispatch();
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+    const isLogin = useSelector(state=>state.auth.isLogin);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [cPassword, setCpassword] = useState("");
-    const [isLogin, setLogin] = useState(true);
     const [visiblePassword , setVisiblePassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const storedToken = localStorage.getItem("idToken");
     const [token , setToken] = useState(storedToken)
+    
     const emailInputHandler = (event) => {
         setEmail(event.target.value);
     }
@@ -131,7 +132,7 @@ const SignUp = () => {
                 </div>
                 <div className="toggle">
                     <button type="button"
-                        onClick={() => setLogin(!isLogin)}
+                        onClick={() => dispatch(authActions.setIsLogin(!isLogin))}
                         className="toggle-button"
                     >{isLogin ? "Create New Account? Sign Up" : "Have an account? Login"}</button>
                 </div>

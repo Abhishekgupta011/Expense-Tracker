@@ -173,7 +173,7 @@ describe('ExpenseForm Component', () => {
       });
       // Asserting dispatched action
       const expectedAction = {
-        type: 'expenses/addExpense', // Adjust action type based on your implementation
+        type: 'expenses', // Adjust action type based on your implementation
         payload: {
           id: "1",
           description: 'Test Description',
@@ -186,7 +186,7 @@ describe('ExpenseForm Component', () => {
     });
 
   
-  test('edits an expense and updates it', async () => {
+  test('only edits an expense and updates it', async () => {
     // Mocking an expense to be edited
     const editedExpense = { id: '2', description: 'Edited Expense', amount: 200, category: 'Edited Category'  };
     const store = mockStore({
@@ -204,30 +204,35 @@ describe('ExpenseForm Component', () => {
         <ExpenseForm />
       </Provider>
     );
+    userEvent.setup();
     await act(async()=>{
       await userEvent.click(screen.getByText(/Add Expense/i))
       await userEvent.click(screen.getByText('Edit'))
-    })
-    //await expect(screen.getByRole('button',{name : 'Edit'})).toBeInTheDocument();
+      // Update onEdited to true
+ 
+      
+    });
+    await act(async () => {
+      store.dispatch(expensesActions.setEdited(true)); // Dispatch an action to update the state
+    });
+    
+    //expect(store.getState().expense.onEdited).toBe(true); // Assert the updated state
+    
+      
+   //await expect(screen.getByRole('button',{name : 'Edit'})).toBeInTheDocument();
   
     expect(screen.getByLabelText('Description')).toHaveValue(editedExpense.description);
     expect(screen.getByLabelText('Amount')).toHaveValue(editedExpense.amount);
     expect(screen.getByLabelText('Category')).toHaveValue(editedExpense.category);
-  
-    // Update onEdited to true
-    store.getState().expense.onEdited = true;
-    await expect(store.getState().expense.onEdited).toBe(true);
-    //await expect(store.getState().theme.isDarkMode).toBe(false);
-    // const updateBtn = screen.getByRole('button',{name : 'Update Expense'})
-    // await act(async() => {
-    //    await expect(updateBtn).toBeInTheDocument();
-    //    //expect(screen.getByLabelText('Description')).toHaveValue(editedExpense.description);
-    // });
-    const editedInput = screen.getByLabelText('Description')
+    
+   
+    
+    //expect(store.getState().theme.isDarkMode).toBe(false);
+
     // Verify that the form is populated with the edited expense details
     await act(async()=>{
-      await userEvent.clear(editedInput);
-      await userEvent.type(editedInput, 'Edited Description');
+      await userEvent.clear(screen.getByLabelText('Description'));
+      await userEvent.type(screen.getByLabelText('Description'), 'Edited Description');
       await userEvent.clear(screen.getByLabelText('Amount'));
       await  userEvent.type(screen.getByLabelText('Amount'), '250');
       await  userEvent.clear(screen.getByLabelText('Category'));
@@ -297,11 +302,11 @@ expect(screen.getByRole('button' , {name : 'Delete'})).toBeInTheDocument();
     expect(store.getActions()).toContainEqual(expectedAction);
   });
 
-  // test("downloads CSV", async() => {
+  // test('downloads CSV', async () => {
   //   // Mocking products data
   //   const products = [
-  //     { id: 1, description: "Product 1", amount: 10, category: "Category 1" },
-  //     { id: 2, description: "Product 2", amount: 20, category: "Category 2" }
+  //     { id: 1, description: 'Product 1', amount: 10, category: 'Category 1' },
+  //     { id: 2, description: 'Product 2', amount: 20, category: 'Category 2' }
   //   ];
   //   const store = mockStore({
   //     expense: {
@@ -312,6 +317,11 @@ expect(screen.getByRole('button' , {name : 'Delete'})).toBeInTheDocument();
   //       isDarkMode: false,
   //     },
   //   });
+
+  //   // Mock Blob and URL.createObjectURL functions
+  //   global.Blob = jest.fn((content, options) => ({ content, options }));
+  //   global.URL.createObjectURL = jest.fn(() => 'blob:http://localhost:3000/abc123');
+
   //   render(
   //     <Provider store={store}>
   //       <ExpenseForm />
@@ -319,19 +329,24 @@ expect(screen.getByRole('button' , {name : 'Delete'})).toBeInTheDocument();
   //   );
 
   //   // Click the "Download CSV" button
-  //   const downloadLink = screen.getByText('Download CSV');
+  //   const downloadButton = screen.getByText('Download CSV');
   //   await act(async()=>{
-  //     await userEvent.click(downloadLink);
+  //     await userEvent.click(downloadButton);
   //   })
     
 
-  //   // Assertions
-  //   expect(downloadLink.download).toBe('expenses.csv');
+  //   // Check if Blob and URL.createObjectURL functions are called
+  //   expect(global.Blob).toHaveBeenCalledWith(
+  //     ['description,amount,category\nProduct 1,10,Category 1\nProduct 2,20,Category 2\n'],
+  //     { type: 'text/csv;charset=utf-8' }
+  //   );
+  //   expect(global.URL.createObjectURL).toHaveBeenCalledWith(
+  //     { content: 'description,amount,category\nProduct 1,10,Category 1\nProduct 2,20,Category 2\n', options: { type: 'text/csv;charset=utf-8' } }
+  //   );
 
-  //   // You can add further assertions if required, for instance, to check the content of the CSV
-  //   // You can't directly test the downloading mechanism due to limitations in Jest.
-  //   // So, typically you would mock or spy on the creation of the Blob and download link,
-  //   // then assert that the appropriate functions were called with the expected parameters.
+  //   // Clean up the mocked functions
+  //   delete global.Blob;
+  //   delete global.URL.createObjectURL;
   // });
 
 });

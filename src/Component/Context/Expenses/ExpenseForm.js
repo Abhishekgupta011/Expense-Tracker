@@ -17,7 +17,7 @@ const ExpenseForm = () => {
     const [selectedExpense, setSelectedExpense] = useState(null); // New state to store the selected expense
     const [loading, setLoading] = useState(false);
 
-    const crudUrl = "https://crudcrud.com/api/4332f7ee90294058ad291300fde42720";
+    const crudUrl = "https://crudcrud.com/api/012b94f87a6e4c9797a36c67663fddcd";
     const getSanitizedEmail = () => {
         let email = localStorage.getItem("email");
         console.log(email)

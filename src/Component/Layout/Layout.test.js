@@ -28,9 +28,5 @@ describe('Layout Component', () => {
     // Check if the link to complete the profile is rendered
     const completeLink = screen.getByRole('link', { name: /complete now/i });
     expect(completeLink).toBeInTheDocument();
-
-    // Simulate a user clicking the link
-    // You can add assertions based on the expected behavior after the link is clicked
-    // Example: expect(screen.getByText('Redirecting to profile page...')).toBeInTheDocument();
   });
 });
