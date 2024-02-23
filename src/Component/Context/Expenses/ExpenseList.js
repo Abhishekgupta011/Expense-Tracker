@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 const ExpenseList = (props) => {
   const products = useSelector((state) => state.expense.products);
 
-  const getSanitizedEmail = props.getSanitizedEmail || (() => {});
+  const getSanitizedEmail = props.getSanitizedEmail;
 
   return (
     <div className="list">

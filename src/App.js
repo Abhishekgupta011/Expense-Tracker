@@ -5,7 +5,9 @@ import ProfilePage from "./Component/Profile/ProfilePage";
 import SignUp from "./Component/Signup/Signup";
 import {Routes , Route} from 'react-router-dom';
 import store from "./Component/Store/Store";
-import { Diversity2 } from "@mui/icons-material";
+import ExpenseForm from "./Component/Context/Expenses/ExpenseForm";
+import Layout from "./Component/Layout/Layout";
+
 function App() {
  // const authctx = useContext(AuthContext);
  
@@ -14,6 +16,10 @@ function App() {
       <Navbar/>
       <Routes>
       <Route path='/' element= {<SignUp />} />
+      <Route path="/expense" element={<>
+                    <Layout />
+                    <ExpenseForm />
+                </>} />
       <Route path='/profilepage' element={<ProfilePage/>}/>
       <Route path="/fpassword" element={<ForgotPassword/>}/>
       </Routes>

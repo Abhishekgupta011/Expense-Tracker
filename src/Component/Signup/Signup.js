@@ -3,7 +3,7 @@ import './Signup.css'
 import Layout from "../Layout/Layout";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ExpenseForm from "../Context/Expenses/ExpenseForm";
 import { authActions } from "../Store/AuthSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,7 +18,7 @@ const SignUp = () => {
     const [loading, setLoading] = useState(false);
     const storedToken = localStorage.getItem("idToken");
     const [token , setToken] = useState(storedToken)
-    
+    const navigate = useNavigate();
     const emailInputHandler = (event) => {
         setEmail(event.target.value);
     }
@@ -54,14 +54,14 @@ const SignUp = () => {
                 if (response.ok) {
                     console.log(`${isLogin ? 'Login' : 'Sign-Up'} successful`, 'success');
                     //console.log(responseData);
+                    if(isLogin){
                     dispatch(authActions.login(responseData.idToken));
                     localStorage.setItem("email" , email);
                     localStorage.setItem("idToken" , responseData.idToken);
-                    setToken(responseData.idToken)
-                    if(isLogin){
-                        dispatch(authActions.login());
-                    }
-                    
+                    setToken(responseData.idToken);
+                    dispatch(authActions.login());
+                    navigate('/expense')
+                    }   
                 } else {
                     alert(responseData.error.message || 'Authentication failed');
                 }
@@ -82,7 +82,7 @@ const SignUp = () => {
       }, [token]);
     return (
         <>
-            {isLoggedIn ? <Layout />:<div className="form-div">
+            <div className="form-div">
             <div className="main">
             <span className="l1">Track Your</span><br/>
             <span className="l2">Daily Expenses</span><br/>
@@ -136,8 +136,8 @@ const SignUp = () => {
                         className="toggle-button"
                     >{isLogin ? "Create New Account? Sign Up" : "Have an account? Login"}</button>
                 </div>
-            </form></div>}
-            {isLoggedIn && <ExpenseForm/>}
+            </form></div>
+           
             
         </>
     )

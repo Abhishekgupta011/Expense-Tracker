@@ -17,7 +17,8 @@ const ExpenseForm = () => {
     const [selectedExpense, setSelectedExpense] = useState(null); // New state to store the selected expense
     const [loading, setLoading] = useState(false);
 
-    const crudUrl = "https://crudcrud.com/api/012b94f87a6e4c9797a36c67663fddcd";
+    const crudUrl = "https://crudcrud.com/api/f1b269a8dbf741a0a40a5e14e16d7d2f";
+
     const getSanitizedEmail = () => {
         let email = localStorage.getItem("email");
         console.log(email)
@@ -54,8 +55,8 @@ const ExpenseForm = () => {
             if (response.ok) {
                 const data = await response.json();
                 const expensesArray = Object.values(data);
-
-                if (data.length > 0) {
+                console.log(expensesArray)
+                if (data.length >= 0) {
                     dispatch(expensesActions.initialExpenses(expensesArray));
                 } 
             }else {
@@ -184,14 +185,15 @@ const ExpenseForm = () => {
             setLoading(false); // Set loading to false after the API call is completed
         }
     };
+  
 
     useEffect(() => {
         console.log("useEffect is running");
         const updatedEmail = getSanitizedEmail()
         getExpenses(updatedEmail);
+        
     }, [selectedExpense]);
     
-
     const totalExpenses = products.reduce((total, expense) => total + parseFloat(expense.amount), 0);
 
     const toggleDarkModeHandler = () => {
