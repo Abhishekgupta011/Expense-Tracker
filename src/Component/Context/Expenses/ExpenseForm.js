@@ -175,6 +175,7 @@ const ExpenseForm = () => {
             if (response.ok) {
                 console.log('Expense deleted successfully');
                 dispatch(expensesActions.deleteExpense(_id));
+                dispatch(expensesActions.setEdited(false))
             } else {
                 const errorData = await response.json();
                 console.error('Failed to delete expense:', errorData);

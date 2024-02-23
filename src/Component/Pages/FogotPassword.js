@@ -10,7 +10,7 @@ const ForgotPassword = () =>{
         // const storedToken = localStorage.getItem("idToken")
         // const getEmail = localStorage.getItem("email")
         try{
-            const response = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDJk2qCxLvy8gpH7j8NlZsL7Zg0QeB6ZVA",{
+            const response = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDCPqUw7nUyeBo-hGlbZLX_ICNEO-8Qgmo",{
                 method : "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -24,7 +24,7 @@ const ForgotPassword = () =>{
                 const responseData = await response.json();
           
                 if (response.ok) {
-                  alert("Password Chaned Successfully");
+                  alert("Link Sent Successfully");
                 } else {
                   console.log('Password change failed:', responseData.error.message);
                 }

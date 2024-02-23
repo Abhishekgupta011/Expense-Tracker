@@ -16,10 +16,10 @@ const ProfilePage = () => {
 
     const updateProfileApi = async (event) => {
         event.preventDefault();
-        const storedToken = localStorage.getItem("IdToken");
+        const storedToken = localStorage.getItem("idToken");
         try {
             const response = await fetch(
-                'https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDJk2qCxLvy8gpH7j8NlZsL7Zg0QeB6ZVA',
+                'https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDCPqUw7nUyeBo-hGlbZLX_ICNEO-8Qgmo',
                 {
                     method: "POST",
                     headers: {
@@ -46,10 +46,10 @@ const ProfilePage = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const storedToken = localStorage.getItem("IdToken");
+            const storedToken = localStorage.getItem("idToken");
             if (storedToken) {
                 try {
-                    const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDJk2qCxLvy8gpH7j8NlZsL7Zg0QeB6ZVA', {
+                    const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDCPqUw7nUyeBo-hGlbZLX_ICNEO-8Qgmo', {
                         method: 'POST',
                         headers: {
                             "Content-Type": "application/json",
@@ -87,9 +87,9 @@ const ProfilePage = () => {
     }
     const verifyEmailHandler = async() =>{
         const email = localStorage.getItem("email");
-        const storedToken = localStorage.getItem("IdToken");
+        const storedToken = localStorage.getItem("idToken");
         try{
-            const response = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDJk2qCxLvy8gpH7j8NlZsL7Zg0QeB6ZVA",{
+            const response = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDCPqUw7nUyeBo-hGlbZLX_ICNEO-8Qgmo",{
                 method: 'POST',
                 headers:{
                     'Content-Type': 'application/json',
